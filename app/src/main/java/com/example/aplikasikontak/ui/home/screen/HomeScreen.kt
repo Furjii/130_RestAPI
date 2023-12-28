@@ -1,5 +1,7 @@
 package com.example.aplikasikontak.ui.home.screen
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import com.example.aplikasikontak.R
 import com.example.aplikasikontak.model.Kontak
 import androidx.compose.foundation.Image
@@ -21,23 +23,42 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aplikasikontak.navigation.DestinasiNavigasi
+import com.example.aplikasikontak.ui.PenyediaViewModel
+import com.example.aplikasikontak.ui.home.viewmodel.HomeViewModel
 import com.example.aplikasikontak.ui.home.viewmodel.KontakUIState
 
 object DestinasiHome : DestinasiNavigasi {
     override val route = "home"
     override val titleRes = "Kontak"
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun HomeScreen(
+    navigateToItemEntry: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDetailClick: (Int) -> Unit = {},
+    viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+}
+
 
 @Composable
 fun HomeStatus(
@@ -49,19 +70,19 @@ fun HomeStatus(
 ) {
     when (kontakUIState) {
         is KontakUIState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
-        is KontakUIState.Success -> KontakLayout(
-            kontak = kontakUIState.kontak,
+        is KontakUIState.Success -> KontakLayout(kontak = kontakUIState.kontak,
             modifier = modifier.fillMaxWidth(),
             onDetailClick = {
                 onDetailClick(it.id)
             },
             onDeleteClick = {
                 onDeleteClick(it)
-            }
-        )
+            })
+
         is KontakUIState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
     }
 }
+
 /*
 The Home screen displaying the loading message
  */
@@ -73,13 +94,13 @@ fun OnLoading(modifier: Modifier = Modifier) {
         contentDescription = stringResource(R.string.loading)
     )
 }
+
 /*
 Home screen displaying error message with re-attempt button
  */
 @Composable
 fun OnError(
-    retryAction: () -> Unit,
-    modifier: Modifier = Modifier
+    retryAction: () -> Unit, modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
@@ -87,18 +108,17 @@ fun OnError(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_connection_error),
-            contentDescription = ""
+            painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
         )
         Text(
-            text = stringResource(R.string.loading_failed),
-            modifier = Modifier.padding(16.dp)
+            text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp)
         )
         Button(onClick = retryAction) {
             Text(stringResource(id = R.string.retry))
         }
     }
 }
+
 @Composable
 fun KontakLayout(
     kontak: List<Kontak>,
@@ -112,21 +132,20 @@ fun KontakLayout(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(kontak) { kontak ->
-            KontakCard(kontak = kontak, modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onDetailClick(kontak) },
+            KontakCard(kontak = kontak,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onDetailClick(kontak) },
                 onDeleteClick = {
                     onDeleteClick(kontak)
-                }
-            )
+                })
         }
     }
 }
+
 @Composable
 fun KontakCard(
-    kontak: Kontak,
-    onDeleteClick: (Kontak) -> Unit = {},
-    modifier: Modifier = Modifier
+    kontak: Kontak, onDeleteClick: (Kontak) -> Unit = {}, modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
@@ -134,35 +153,29 @@ fun KontakCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = kontak.nama,
-                    style = MaterialTheme.typography.titleLarge
+                    text = kontak.nama, style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
                 Icon(
-                    imageVector = Icons.Default.Phone,
-                    contentDescription = null
+                    imageVector = Icons.Default.Phone, contentDescription = null
                 )
                 Text(
-                    text = kontak.telpon,
-                    style = MaterialTheme.typography.titleMedium
+                    text = kontak.telpon, style = MaterialTheme.typography.titleMedium
                 )
             }
             Text(
-                text = kontak.alamat,
-                style = MaterialTheme.typography.titleMedium
+                text = kontak.alamat, style = MaterialTheme.typography.titleMedium
             )
             Spacer(Modifier.weight(1f))
             IconButton(onClick = { onDeleteClick(kontak) }) {
                 Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = null
+                    imageVector = Icons.Default.Delete, contentDescription = null
                 )
             }
         }
