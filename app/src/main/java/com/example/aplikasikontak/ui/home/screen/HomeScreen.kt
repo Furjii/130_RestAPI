@@ -52,6 +52,32 @@ fun HomeScreen(
 
 }
 
+@Composable
+fun HomeStatus(
+    kontakUIState: KontakUIState,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Kontak) -> Unit = {},
+    onDetailClick: (Int) -> Unit
+) {
+    when (kontakUIState) {
+        is KontakUIState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is KontakUIState.Success -> KontakLayout(
+            kontak = kontakUIState.kontak,
+            modifier = modifier.fillMaxWidth(),
+            onDetailClick = {
+                onDetailClick(it.id)
+            },
+            onDeleteClick = {
+                onDeleteClick(it)
+            }
+        )
+
+        is KontakUIState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
+    }
+
+}
+
 /*
 The Home screen displaying the loading message
  */
@@ -98,8 +124,9 @@ fun OnError(
 @Composable
 fun KontakLayout(
     kontak: List<Kontak>,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    onDetailClick: (Kontak) -> Unit,
+    onDeleteClick: (Kontak) -> Unit = {}) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(16.dp),
@@ -108,7 +135,12 @@ fun KontakLayout(
         items(kontak) { kontak ->
             KontakCard(kontak = kontak, modifier = Modifier
                 .fillMaxWidth()
-                .clickable { })
+                .clickable { onDetailClick(kontak) },
+                onDeleteClick = {
+                    onDeleteClick(kontak)
+                }
+            )
+
 
         }
     }
