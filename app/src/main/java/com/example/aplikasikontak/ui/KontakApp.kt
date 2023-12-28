@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aplikasikontak.navigation.PengelolaHalaman
 import com.example.aplikasikontak.ui.home.screen.HomeScreen
 import com.example.aplikasikontak.ui.home.viewmodel.HomeViewModel
 
@@ -31,25 +32,22 @@ import com.example.aplikasikontak.ui.home.viewmodel.HomeViewModel
 @Composable
 fun KontakApp(
     homeViewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
-
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { TopAppBar(scrollBehavior = scrollBehavior) }
+        topBar = { }
     ) {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
-            HomeScreen(
-                kontakUIState = homeViewModel.kontakUIState,
-                retryAction = homeViewModel::getKontak
-            )
+            PengelolaHalaman()
 
 
         }
+
     }
 }
 
@@ -83,11 +81,12 @@ fun TopAppBarKontak(
         title = { Text(title) },
         modifier = modifier,
         navigationIcon = {
-            if (canNavigateBack){
+            if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "")
+                        contentDescription = ""
+                    )
 
                 }
             }
