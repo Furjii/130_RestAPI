@@ -35,24 +35,6 @@ import androidx.compose.ui.unit.dp
 import com.example.aplikasikontak.ui.home.viewmodel.KontakUIState
 
 @Composable
-fun HomeScreen(
-    kontakUIState: KontakUIState,
-    retryAction: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    when (kontakUIState) {
-        is KontakUIState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
-        is KontakUIState.Success -> KontakLayout(
-            kontak = kontakUIState.kontak,
-            modifier = modifier.fillMaxWidth()
-        )
-
-        is KontakUIState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
-    }
-
-}
-
-@Composable
 fun HomeStatus(
     kontakUIState: KontakUIState,
     retryAction: () -> Unit,
