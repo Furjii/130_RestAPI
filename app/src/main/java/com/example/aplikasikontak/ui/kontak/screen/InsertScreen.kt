@@ -1,4 +1,4 @@
-package com.example.aplikasikontak.ui.home.screen
+package com.example.aplikasikontak.ui.kontak.screen
 
 import android.os.Build
 import androidx.annotation.RequiresExtension
@@ -27,9 +27,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aplikasikontak.navigation.DestinasiNavigasi
 import com.example.aplikasikontak.ui.PenyediaViewModel
 import com.example.aplikasikontak.ui.TopAppBarKontak
-import com.example.aplikasikontak.ui.home.viewmodel.InsertUiEvent
-import com.example.aplikasikontak.ui.home.viewmodel.InsertUiState
-import com.example.aplikasikontak.ui.home.viewmodel.InsertViewModel
+import com.example.aplikasikontak.ui.kontak.viewmodel.InsertUiEvent
+import com.example.aplikasikontak.ui.kontak.viewmodel.InsertUiState
+import com.example.aplikasikontak.ui.kontak.viewmodel.InsertViewModel
 import kotlinx.coroutines.launch
 
 

@@ -1,4 +1,4 @@
-package com.example.aplikasikontak.ui.home.viewmodel
+package com.example.aplikasikontak.ui.kontak.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

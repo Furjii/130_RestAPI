@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.aplikasikontak.ui.home.viewmodel.HomeViewModel
-import com.example.aplikasikontak.ui.home.viewmodel.InsertViewModel
+import com.example.aplikasikontak.ui.kontak.viewmodel.InsertViewModel
 
 object PenyediaViewModel {
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)

@@ -8,9 +8,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.aplikasikontak.ui.home.screen.DestinasiEntry
+import com.example.aplikasikontak.ui.kontak.screen.DestinasiEntry
 import com.example.aplikasikontak.ui.home.screen.DestinasiHome
-import com.example.aplikasikontak.ui.home.screen.EntryKontakScreen
+import com.example.aplikasikontak.ui.kontak.screen.EntryKontakScreen
 import com.example.aplikasikontak.ui.home.screen.HomeScreen
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
